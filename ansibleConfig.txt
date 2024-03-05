@@ -1,0 +1,68 @@
+Ansible configuration 
+
+1) launch three instances and then connect to mobaxterm terminal
+   and give hostname master,workernode 1,workernode 2.
+2) install -->sudo amazon-linux-extras install ansible2 -y
+3) config file =/etc/ansible/ansible.cfg
+master
+vi /etc/ansible/hosts
+[demo]
+paste the private IP 1
+paste the private IP 2
+vi /etc/ansible/ansible.cfg
+# inventory-->host information
+# sudo_user=root
+#-->remove
+
+4)do in all three terminal (merge)   
+  useradd ansible
+  passwd ansible
+  password : 1234
+5)in master give su - ansible 
+  sudo yum install httpd -y
+it will ask for ansible password
+provide it
+exit from it
+6)visudo in that give ansible ALL=(ALL) NOPASSWD: ALL
+su - ansible 
+sudo yum install httpd -y
+7)ssh 172.31.36.56 --> This in master
+yes
+exit
+vi /etc/ssh/sshd_config -->in root
+#permitrootlogin yes
+#password authentication yes
+#-->remove
+su - ansible 
+ssh 172.31.36.56
+exit
+service sshd restart
+su - ansible
+ssh 172.31.36.56
+8)Now this in workernode 1 
+  vi /etc/ssh/sshd_config
+  service sshd restart
+  su - ansible
+  ssh 172.31.36.56
+9)create one sample.txt in master and check it in  workernode 1
+10)do same steps as 8 one.
+11) in ansible@master node -----> do it ansible@master not in root
+ssh-keygen
+give 3times yes
+ls
+ls -a
+cd .ssh/
+ls
+cat id_rsa 
+ssh-copy-id ansible@172.31.10.102
+cd
+ssh 172.31.10.102
+exit
+cd .ssh/
+ssh-copy-id ansible@172.31.10.122
+cd
+ssh 172.31.10.122
+exit
+
+__---------ansible demo -m ping -----------------___
+
